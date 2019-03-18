@@ -4,5 +4,8 @@ class StoreController
 public:
 	StoreController();
 	~StoreController();
+
+private:
+
 };
 
