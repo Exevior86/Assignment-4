@@ -1,6 +1,6 @@
 #ifndef CUSTOMERDATA_H
 #define CUSTOMERDATA_H
-
+#include "Item.h"
 #include <iostream>
 
 using namespace std;
@@ -11,18 +11,17 @@ public:
 	Customer(int, string, string);
 	~Customer();
 
-	void addTransaction(string, string);
-	void removeTransaction(string, string);
-	const bool containsTransaction(const Customer);
+	void addTransaction(Item*);
+	void removeTransaction(Item*);
+	const bool containsTransaction();
 	string getName();
 	int getID();
-	string printHistory();
+	void printHistory(ostream&);
 
 private:
 	
 	struct TransactionNode {
-		string type;
-		string movie;
+		Item* movie;
 		TransactionNode* next;
 	};
 	int id;

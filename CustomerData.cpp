@@ -20,11 +20,10 @@ Customer::~Customer()
 {
 }
 
-void Customer::addTransaction(string command, string movieTitle)
+void Customer::addTransaction(Item* aMovie)
 {
 	TransactionNode *toAdd = new TransactionNode;
-	toAdd->type = command;
-	toAdd->movie = movieTitle;
+	toAdd->movie = aMovie;
 	toAdd->next = NULL;
 
 	if (head == NULL)
@@ -37,21 +36,18 @@ void Customer::addTransaction(string command, string movieTitle)
 	}
 }
 
-const bool Customer::containsTransaction(const Customer root)
+const bool Customer::containsTransaction()
 {
-	if (root.head == NULL)
-		return false;
-	else
-		return true;
+	return head == NULL;
 }
 
-void Customer::removeTransaction(string command, string movieTitle)
+void Customer::removeTransaction(Item* removeMovie)
 {
 	TransactionNode *start = head;
 	if (start == NULL)
 		return;
 	else
-		while (start->next->type != command && start->next->movie != movieTitle) {
+		while (start->next->movie != removeMovie) {
 			start = start->next;
 		}
 
@@ -61,27 +57,26 @@ void Customer::removeTransaction(string command, string movieTitle)
 }
 
 
-string Customer::printHistory()
+void Customer::printHistory(ostream& out)
 {
 	TransactionNode *temp = head;
-	
+	out << getName() << endl;
 	if (temp == NULL)
-		return "NO Transaction Data";
+		out << "No Prior Transactions";
 	else
 		while (temp != NULL)
 		{
-			cout << "Transaction " << temp->type << " " << temp->movie << endl;
+			temp->movie->print(out);
+			out << endl;
 			temp = temp->next;
 		}
-		return " ";
 }
-
 
 int Customer::getID() {
 	return id;
 }
 
 string Customer::getName() {
-	string name = lastName + ", " + firstName;
+	string name = firstName + " " + lastName;
 	return name;
 }
