@@ -22,11 +22,11 @@ string Hashtable::get(const int key)
 	return table[index].get(key);
 }
 
-void Hashtable::put(const int key,const string value)
+void Hashtable::put(Customer customer)
 {
-	int index = hash(key);
+	int index = hash(customer.getID());
 
-	table[index].insert(key, value);
+	table[index].insert(customer.getID(), customer.getName());
 }
 
 const bool Hashtable::containsKey(const int key) {

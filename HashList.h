@@ -1,5 +1,7 @@
+#ifndef HASHLIST_H
+#define HASHLIST_H
 #include <iostream>
-#include "CustomerData.h"
+
 using namespace std;
 
 class HashList
@@ -8,7 +10,7 @@ class HashList
 public:
 	HashList();
 	~HashList();
-	void insert(Customer);
+	void insert(int, string);
 	void remove(const int);
 	const bool contains(const int);
 	const string get(const int key);
@@ -22,3 +24,4 @@ private:
 	HashNode *root;
 };
 
+#endif // !HASHLIST_H

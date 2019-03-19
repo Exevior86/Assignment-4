@@ -1,12 +1,14 @@
+#ifndef CUSTOMERDATA_H
+#define CUSTOMERDATA_H
+
 #include <iostream>
 
 using namespace std;
 
-class Customer
-{
+class Customer {
 public:
 	Customer();
-	Customer(int, string);
+	Customer(int, string, string);
 	~Customer();
 
 	void addTransaction(string, string);
@@ -24,8 +26,10 @@ private:
 		TransactionNode* next;
 	};
 	int id;
-	string name;
+	string firstName;
+	string lastName;
 	TransactionNode* head;
 
 };
 
+#endif // !CUSTOMERDATA_H

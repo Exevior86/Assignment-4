@@ -10,11 +10,11 @@ HashList::~HashList()
 {
 }
 
-void HashList::insert(Customer adder) 
+void HashList::insert(int num, string name) 
 {
 	HashNode *newNode = new HashNode;
-	newNode->value = adder.getName();
-	newNode->key = adder.getID();
+	newNode->value = name;
+	newNode->key = num;
 	newNode->next = root;
 	root = newNode;
 }
@@ -68,6 +68,6 @@ const string HashList::get(const int key) {
 
 		return start->value;
 	}
-
-	return NULL;
+	else 
+		return "Error item doesn't exist";
 }

@@ -1,5 +1,10 @@
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
+
 #include <iostream>
 #include "HashList.h"
+#include "CustomerData.h"
+
 using namespace std;
 
 class Hashtable
@@ -9,7 +14,7 @@ public:
 
 	Hashtable();
 	~Hashtable();
-	void put(int, string);
+	void put(Customer);
 	string get(const int);
 	void remove(int key);
 	const bool containsKey(const int);
@@ -19,3 +24,4 @@ private:
 	int hash(const int);
 };
 
+#endif // !HASHTABLE_H
