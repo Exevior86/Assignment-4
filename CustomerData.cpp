@@ -40,18 +40,18 @@ Customer::~Customer() {}
 // Preconditions: None
 // Postconditions: None
 //----------------------------------------------------------------------------
-void Customer::addTransaction(Item* aMovie)
+void Customer::addTransaction(string type, Item* aMovie)
 {
 	TransactionNode *toAdd = new TransactionNode;
+	toAdd->type = type;
 	toAdd->movie = aMovie;
 	toAdd->next = NULL;
 
-	if (head == NULL)
-		head = toAdd;
-	else {
+	if (head != NULL)
+	{
 		toAdd->next = head;
-		head = toAdd;
 	}
+	head = toAdd;
 } // end of addTransaction
 
 //------------------------------ containsTransaction ---------------------------------
@@ -73,13 +73,14 @@ const bool Customer::containsTransaction()
 void Customer::printHistory(ostream& out)
 {
 	TransactionNode *temp = head;
-	out << getName() << endl;
+	out << "****************** " << getName() << " ******************" << endl;
 
 	if (temp == NULL)
 		out << "No Prior Transactions" << endl;
 	else
 		while (temp != NULL)
 		{
+			out << temp->type << " ";
 			temp->movie->print(out);
 			out << endl;
 			temp = temp->next;

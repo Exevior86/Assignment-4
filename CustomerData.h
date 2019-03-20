@@ -20,7 +20,7 @@ public:
 	Customer(int, string, string);			// Constructor
 	~Customer();							// Desconstructor
 
-	void addTransaction(Item*);				// Adds a transaction to a customer
+	void addTransaction(string, Item*);				// Adds a transaction to a customer
 	const bool containsTransaction();		// Returns if a cutomer has a transaction or not
 	string getName();						// Returns the name of a customer
 	int getID();							// Returns a customer's ID
@@ -29,6 +29,7 @@ public:
 private:
 	
 	struct TransactionNode {
+		string type;
 		Item* movie;						// A pointer to a movie
 		TransactionNode* next;				// A pointer to the next node
 	};

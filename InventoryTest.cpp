@@ -65,10 +65,13 @@ int main() {
 
 	ifstream infile1("data4customers.txt");
 	ifstream infile2("data4movies.txt");
+	ifstream infile3("data4commands.txt");
 
 	Fileparser parser;
 	parser.parseCustomers(infile1, store);
 	parser.parseMovies(infile2, store);
+
+	parser.parseCommands(infile3, store);
 	
 	return 1;
 }
