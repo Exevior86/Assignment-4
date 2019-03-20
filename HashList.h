@@ -1,6 +1,7 @@
 #ifndef HASHLIST_H
 #define HASHLIST_H
 #include <iostream>
+#include "CustomerData.h"
 
 using namespace std;
 
@@ -10,18 +11,19 @@ class HashList
 public:
 	HashList();
 	~HashList();
-	void insert(int, string);
-	void remove(const int);
-	const bool contains(const int);
-	const string get(const int key);
+	void insert(int, Customer*);
+	bool contains(const int) const;
+	Customer* get(const int key) const;
 
 private:
 	struct HashNode{
 		int key;
-		string value;
-		HashNode *next;
+		Customer* value;
+		HashNode* next;
 	};
-	HashNode *root;
+	HashNode* root;
+
+	void deleteHelper(HashNode* node);
 };
 
-#endif // !HASHLIST_H
+#endif

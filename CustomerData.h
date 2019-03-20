@@ -28,7 +28,6 @@ private:
 	string firstName;
 	string lastName;
 	TransactionNode* head;
-
 };
 
 #endif // !CUSTOMERDATA_H

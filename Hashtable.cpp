@@ -3,46 +3,30 @@
 
 using namespace std;
 
-
 Hashtable::Hashtable()
 {
 	table = new HashList[MAX_SIZE];
-
 }
 
+Hashtable::~Hashtable() {}
 
-Hashtable::~Hashtable()
+Customer* Hashtable::get(const int key)
 {
+	return table[hash(key)].get(key);
 }
 
-string Hashtable::get(const int key)
+void Hashtable::put(Customer* customer)
 {
-	int index = hash(key);
-
-	return table[index].get(key);
+	const int index = hash(customer->getID());
+	table[index].insert(customer->getID(), customer);
 }
 
-void Hashtable::put(Customer customer)
+bool Hashtable::containsKey(const int key) const 
 {
-	int index = hash(customer.getID());
-
-	table[index].insert(customer.getID(), customer.getName());
+	return table[hash(key)].contains(key);
 }
 
-const bool Hashtable::containsKey(const int key) {
-	int index = hash(key);
-
-	return table[index].contains(key);
-}
-
-void Hashtable::remove(const int key)
+int Hashtable::hash(const int key) const
 {
-	int index = hash(key);
-
-	table[index].remove(key);
-}
-
-int Hashtable::hash(const int num)
-{
-	return num % MAX_SIZE;
+	return key % MAX_SIZE;
 }

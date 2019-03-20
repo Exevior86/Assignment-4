@@ -7,7 +7,7 @@ using namespace std;
 class MovieC : public Item
 {
 public:
-	MovieC(const int, const string, const string, const string, const int);
+	MovieC(const int, const string, const string, const string, const int, const int);
 	~MovieC();
 
 	bool operator<(const Item&) const;
@@ -15,6 +15,7 @@ public:
 	void print(ostream& out);
 
 private:
+	int month;
 	int year;
 	string title;
 	string director;

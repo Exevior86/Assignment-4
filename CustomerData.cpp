@@ -27,9 +27,7 @@ void Customer::addTransaction(Item* aMovie)
 	toAdd->next = NULL;
 
 	if (head == NULL)
-	{
 		head = toAdd;
-	}
 	else {
 		toAdd->next = head;
 		head = toAdd;
@@ -41,6 +39,7 @@ const bool Customer::containsTransaction()
 	return head == NULL;
 }
 
+/*
 void Customer::removeTransaction(Item* removeMovie)
 {
 	TransactionNode *start = head;
@@ -55,14 +54,15 @@ void Customer::removeTransaction(Item* removeMovie)
 	delete start->next;
 	start->next = temp;
 }
-
+*/
 
 void Customer::printHistory(ostream& out)
 {
 	TransactionNode *temp = head;
 	out << getName() << endl;
+
 	if (temp == NULL)
-		out << "No Prior Transactions";
+		out << "No Prior Transactions" << endl;
 	else
 		while (temp != NULL)
 		{
@@ -70,6 +70,7 @@ void Customer::printHistory(ostream& out)
 			out << endl;
 			temp = temp->next;
 		}
+	out << endl;
 }
 
 int Customer::getID() {

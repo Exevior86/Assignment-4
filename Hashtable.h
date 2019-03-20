@@ -5,23 +5,20 @@
 #include "HashList.h"
 #include "CustomerData.h"
 
-using namespace std;
+const int MAX_SIZE = 101;
 
 class Hashtable
 {
 public:
-	static const int MAX_SIZE = 101;
-
 	Hashtable();
 	~Hashtable();
-	void put(Customer);
-	string get(const int);
-	void remove(int key);
-	const bool containsKey(const int);
+	void put(Customer*);
+	Customer* get(const int);
+	bool containsKey(const int) const;
 
 private:
 	HashList *table;
-	int hash(const int);
+	int hash(const int) const;
 };
 
 #endif // !HASHTABLE_H

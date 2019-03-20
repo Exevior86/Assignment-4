@@ -1,4 +1,5 @@
 #include "HashList.h"
+#include "CustomerData.h"
 using namespace std;
 
 HashList::HashList()
@@ -6,68 +7,52 @@ HashList::HashList()
 	root = NULL;
 }
 
-HashList::~HashList()
+HashList::~HashList() 
 {
+	deleteHelper(root);
 }
 
-void HashList::insert(int num, string name) 
+void HashList::deleteHelper(HashNode* node)
+{
+	if (node != NULL) 
+	{
+		deleteHelper(node->next);
+		delete node->value;
+	}
+}
+
+void HashList::insert(int num, Customer* cust) 
 {
 	HashNode *newNode = new HashNode;
-	newNode->value = name;
+	newNode->value = cust;
 	newNode->key = num;
 	newNode->next = root;
 	root = newNode;
 }
 
-void HashList::remove(const int key) 
-{
-	if (root == NULL) {
-		return;
-	}
-
-	if (root->key == key) {
-		HashNode* temp = root->next;
-		delete root;
-		root = temp;
-		return;
-	}
-
-	if (contains(key)) 
-	{
-		HashNode *start = root;
-
-		while (start->next->key != key) {
-			start = start->next;
-		}
-
-		HashNode* temp = start->next->next;
-		delete start->next;
-		start->next = temp;
-	}
-}
-
-const bool HashList::contains(const int key) 
+bool HashList::contains(const int key) const
 {
 	HashNode *start = root;
 
-	while (start != NULL && start->key != key) {
+	while (start != NULL && start->key != key) 
+	{
 		start = start->next;
 	}
 
 	return start != NULL;
 }
 
-const string HashList::get(const int key) {
+Customer* HashList::get(const int key) const {
 	HashNode *start = root;
 
 	if (contains(key))
 	{
-		while (start != NULL && start->key != key) {
+		while (start != NULL && start->key != key) 
+		{
 			start = start->next;
 		}
 
 		return start->value;
 	}
-	else 
-		return "Error item doesn't exist";
+	return NULL;
 }

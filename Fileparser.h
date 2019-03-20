@@ -3,24 +3,19 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "CustomerData.h"
+#include "StoreController.h"
 
 using namespace std;
 
 class Fileparser
 {
 public:
-	Customer parseCustomers(ifstream&); //NEED ATTENTION
-	void parseMovies(ifstream&);
-	void parseCommands(ifstream&);
-
-	bool hasNext();
-	string nextLine();
-
 	Fileparser();
 	~Fileparser();
 
-
+	void parseCustomers(ifstream&, StoreController*);
+	void parseMovies(ifstream&, StoreController*);
+	void parseCommands(ifstream&, StoreController*);
 };
 
 #endif // !FILEPARSER_H
