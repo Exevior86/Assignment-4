@@ -37,6 +37,8 @@ private:
 	string firstName;						// The customer's first name
 	string lastName;						// The customer's last name
 	TransactionNode* head;					// Pointer to a tranasactionNode list
+
+	void deleteHelper(TransactionNode*);
 };
 
 #endif // !CUSTOMERDATA_H

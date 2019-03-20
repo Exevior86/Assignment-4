@@ -33,7 +33,25 @@ Customer::Customer(int num, string first, string last)
 } // end of constructor
 
 // destructor
-Customer::~Customer() {}
+Customer::~Customer() 
+{
+	deleteHelper(head);
+}
+
+//------------------------------ deleteHelper ---------------------------------
+// Deletes transactions for the customer.
+// Preconditions: None
+// Postconditions: None
+//-----------------------------------------------------------------------------
+void Customer::deleteHelper(TransactionNode* node)
+{
+	if (node != NULL)
+	{
+		deleteHelper(node->next);
+		delete node->movie;
+		delete node;
+	}
+}
 
 //------------------------------ addTransaction ---------------------------------
 // Adds a transaction to a customer

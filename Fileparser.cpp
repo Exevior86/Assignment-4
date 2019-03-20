@@ -1,3 +1,13 @@
+//-------------------------- Fileparser.cpp ----------------------------------
+// Vlad Netrebchenko & Adam Snyder CSS 343 C
+// 3/18/2019
+// 3/19/2019
+//----------------------------------------------------------------------------
+// Parses input files into the store controller.
+//----------------------------------------------------------------------------
+// 
+//----------------------------------------------------------------------------
+
 #include "Fileparser.h"
 #include "MovieC.h"
 #include "MovieD.h"
@@ -7,10 +17,17 @@
 
 using namespace std;
 
+// constructor
 Fileparser::Fileparser() {}
 
+// destructor
 Fileparser::~Fileparser() {}
 
+//------------------------------ parseCustomers ------------------------------
+// Deletes all items in the inventory.
+// Preconditions: None
+// Postconditions: None
+//----------------------------------------------------------------------------
 void Fileparser::parseCustomers(ifstream& infile, StoreController* store) 
 {
 	string id;
@@ -23,8 +40,13 @@ void Fileparser::parseCustomers(ifstream& infile, StoreController* store)
 		Customer* customer = new Customer(stoi(id), first, last);
 		store->addCustomer(customer);
 	}
-}
+} // end of parseCustomers
 
+//------------------------------ parseMovies ---------------------------------
+// Parses and adds movies into the store.
+// Preconditions: None
+// Postconditions: None
+//----------------------------------------------------------------------------
 void Fileparser::parseMovies(ifstream& infile, StoreController* store) 
 {
 	// get the next line in the movies file
@@ -122,8 +144,13 @@ void Fileparser::parseMovies(ifstream& infile, StoreController* store)
 			}
 		}
 	}
-}
+} // end of parseMovies
 
+//------------------------------ parseCommands -------------------------------
+// Parses and acts out all valid commands in the file.
+// Preconditions: None
+// Postconditions: None.
+//----------------------------------------------------------------------------
 void Fileparser::parseCommands(ifstream& infile, StoreController* store) 
 {
 	string line;
@@ -148,6 +175,7 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 				cout << "Customer does not exist" << endl;
 			}
 		}
+		// parse B and R commands
 		else if (token == "B" || token == "R") 
 		{
 			string delimeter = ",";
@@ -162,12 +190,16 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 			string brokenLine = line.substr(10, line.length());
 
 			istringstream stream(line);
-			if (type == "C") {
+
+			// C type movies
+			if (type == "C") 
+			{
 				date = line.substr(11, 6);
 				month = date.substr(0, 1);
 				year = date.substr(2, 4);
 				actorName = line.substr(18, line.length());
 
+				// create new movie and add it to the customer's transactions, or print error message
 				MovieC *movie = new MovieC(1, "placeholder", "placeholder", actorName, stoi(month), stoi(year));
 				bool instock = store->addTransactionC((token == "B") ? "Borrow" : "Return", stoi(ID), movie);
 				if (!instock)
@@ -178,10 +210,13 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 				delete movie;
 			}
 
-			else if (type == "F") {
+			// F type movies
+			else if (type == "F") 
+			{
 				date = line.substr(line.length() - 4, 4);
 				movieTitle = brokenLine.substr(1, brokenLine.find(delimeter) - 1);
 
+				// create new movie and add it to the customer's transactions, or print error message
 				MovieF *movie = new MovieF(1, movieTitle, "placeholder", stoi(date));
 				bool instock = store->addTransactionF((token == "B") ? "Borrow" : "Return", stoi(ID), movie);
 				if (!instock)
@@ -192,12 +227,15 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 				delete movie;
 			}
 
-			else if (type == "D") {
+			// D type movies
+			else if (type == "D") 
+			{
 				director = brokenLine.substr(1, brokenLine.find(delimeter) - 1);
 
 				movieTitle = brokenLine.substr(director.length() + 2, brokenLine.length());
 				movieTitle = movieTitle.substr(1, movieTitle.length() - 2);
 
+				// create new movie and add it to the customer's transactions, or print error message
 				MovieD *movie = new MovieD(1, movieTitle, director, 1121);
 				bool instock = store->addTransactionD((token == "B") ? "Borrow" : "Return", stoi(ID), movie);
 				if (!instock)
@@ -208,10 +246,11 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 				delete movie;
 			}
 
+			// Incorrect type
 			else
 				cout << "Movie type does not exist, please select another one." << endl;
 		}
 		else
 			cout << "Invalid command." << endl;
 	}
-}
+} // end of parseCommands
