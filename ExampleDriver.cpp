@@ -10,16 +10,10 @@
 //
 //----------------------------------------------------------------------------
 
-#include "MovieF.h"
-#include "MovieD.h"
-#include "MovieC.h"
-#include "ItemInventory.h"
 #include "StoreController.h"
-#include "Hashtable.h"
 #include "Fileparser.h"
 
-int main() {	
-
+int main() { // This will handle all of the commands needed for the assignment
 	StoreController* store = new StoreController();
 
 	ifstream infile1("data4customers.txt");
