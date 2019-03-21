@@ -7,6 +7,8 @@
 // transactions to the node. The class also has a printmethod and a contains 
 // methods that checks if a customer has any transations or not.
 //----------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------
 
 #include "CustomerData.h"
 #include <iostream>
@@ -24,11 +26,10 @@ Customer::Customer()
 // Preconditions: None
 // Postconditions: None
 //----------------------------------------------------------------------------
-Customer::Customer(int num, string first, string last)
+Customer::Customer(int num, string first)
 {
 	id = num;
 	firstName = first;
-	lastName = last;
 	head = NULL;
 } // end of constructor
 
@@ -122,6 +123,5 @@ int Customer::getID() {
 // Postconditions: None
 //----------------------------------------------------------------------------
 string Customer::getName() {
-	string name = firstName + " " + lastName;
-	return name;
+	return firstName;
 } // end of getName

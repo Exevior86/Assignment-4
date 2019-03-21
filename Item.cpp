@@ -1,6 +1,6 @@
 //------------------------------- Item.cpp -----------------------------------
-// Vlad Netrebchenko CSS 343 C
-// 3/18/2019
+// Vlad Netrebchenko, Adam Snyder CSS 343 C
+// 3/8/2019
 // 3/19/2019
 //----------------------------------------------------------------------------
 // Provides sorting and storage for item attributes.

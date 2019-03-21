@@ -1,3 +1,14 @@
+//------------------------------ CustomerData.cpp ------------------------------------
+// Vlad Netrebchenko, Adam Snyder CSS 343 C
+// 3/8/2019
+// 3/19/2019
+//----------------------------------------------------------------------------
+// This class allows the construction of customer nodes and can add 
+// transactions to the node. The class also has a printmethod and a contains 
+// methods that checks if a customer has any transations or not.
+//----------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------
 
 #include "MovieF.h"
 #include "MovieD.h"
@@ -8,58 +19,6 @@
 #include "Fileparser.h"
 
 int main() {	
-	/*
-	ItemInventory inventory;
-
-	MovieC* movieC1 = new MovieC(10, "ccccc", "direcG", "Ryan", 1998);
-	MovieC* movieC2 = new MovieC(10, "ccccc", "direcG", "Goose", 1998);
-	MovieC* movieC3 = new MovieC(10, "ccccc", "direcG", "Alan", 1994);
-	MovieC* movieC4 = new MovieC(10, "ccccc", "direcG", "Alan", 1998);
-
-	MovieD* movie1 = new MovieD(10, "ccccc", "direcG", 1998);
-	MovieD* movie2 = new MovieD(11, "hhhhh", "direcA", 1997);
-	MovieD* movie3 = new MovieD(1, "hhhhh", "direcK", 1998);
-	MovieD* movie4 = new MovieD(1, "aaaaa", "direcK", 1932);
-
-	inventory.add(movieC1);
-	inventory.add(movieC2);
-	inventory.add(movieC3);
-	inventory.add(movieC4);
-	
-	cout << "Stock before borrowing: " << movieC3->getStock() << endl;
-	cout << "Borrowing available: " << inventory.borrowItem(movieC3) << endl;
-	cout << "Stock after borrowing: " << movieC3->getStock() << endl;
-	cout << "Borrowing unavailable: " << inventory.borrowItem(movieC3) << endl;
-	cout << "Returning available: " << inventory.returnItem(movieC3) << endl;
-	cout << "Stock after returning: " << movieC3->getStock() << endl;
-	cout << "Returning unavailable: " << inventory.returnItem(movieC3) << endl;
-	cout << "Stock after returning: " << movieC3->getStock() << endl;
-
-	cout << "Finding movie 2: " << inventory.find(movieC2) << endl;
-
-	cout << endl;
-	inventory.printAll(cout);
-	*/
-
-	/*
-	MovieD* movieD1 = new MovieD(10, "ccccc", "direcG", 1998);
-	MovieD* movieD2 = new MovieD(11, "hhhhh", "direcA", 1997);
-	MovieD* movieD3 = new MovieD(1, "hhhhh", "direcK", 1998);
-	MovieD* movieD4 = new MovieD(1, "aaaaa", "direcK", 1932);
-
-	MovieF* movieF1 = new MovieF(10, "dd", "direcG", 1998);
-	MovieF* movieF2 = new MovieF(11, "ss", "direcA", 1997);
-	MovieF* movieF3 = new MovieF(1, "aa", "direcK", 1998);
-	MovieF* movieF4 = new MovieF(1, "asdg", "direcK", 1932);
-
-	MovieC* movieC1 = new MovieC(10, "ccccc", "direcG", "Ryan", 1998);
-	MovieC* movieC2 = new MovieC(10, "ccccc", "direcG", "Goose", 1998);
-	MovieC* movieC3 = new MovieC(10, "ccccc", "direcG", "Alan", 1994);
-	MovieC* movieC4 = new MovieC(10, "ccccc", "direcG", "Alan", 1998);
-	*/
-
-	Customer* cust1 = new Customer(1088, "Adam", "Snyder");
-	Customer* cust2 = new Customer(1029, "Vlad", "Netrebchenko");
 
 	StoreController* store = new StoreController();
 
@@ -68,10 +27,11 @@ int main() {
 	ifstream infile3("data4commands.txt");
 
 	Fileparser parser;
+
 	parser.parseCustomers(infile1, store);
 	parser.parseMovies(infile2, store);
-
 	parser.parseCommands(infile3, store);
-	
+
+		
 	return 1;
 }

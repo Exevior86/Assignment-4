@@ -6,6 +6,8 @@
 // The header file for HashTable.cpp, contains all the definitions for the 
 // methods used.
 //----------------------------------------------------------------------------
+// 
+//----------------------------------------------------------------------------
 
 #ifndef HASHTABLE_H
 #define HASHTABLE_H

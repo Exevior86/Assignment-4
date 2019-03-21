@@ -5,7 +5,9 @@
 //----------------------------------------------------------------------------
 // The header file for the cutomerData class and defines all of the function
 // definitions.
-
+// ----------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------
 
 #ifndef CUSTOMERDATA_H
 #define CUSTOMERDATA_H
@@ -17,7 +19,7 @@ using namespace std;
 class Customer {
 public:
 	Customer();								// Default constructor
-	Customer(int, string, string);			// Constructor
+	Customer(int, string);			// Constructor
 	~Customer();							// Desconstructor
 
 	void addTransaction(string, Item*);				// Adds a transaction to a customer
@@ -35,7 +37,6 @@ private:
 	};
 	int id;									// The customer's id
 	string firstName;						// The customer's first name
-	string lastName;						// The customer's last name
 	TransactionNode* head;					// Pointer to a tranasactionNode list
 
 	void deleteHelper(TransactionNode*);

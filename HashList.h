@@ -6,6 +6,8 @@
 // The header file for HashList.cpp, contains all of the function definitions
 // for the methods used and defines a hashlist structure.
 //----------------------------------------------------------------------------
+// 
+//----------------------------------------------------------------------------
 
 #ifndef HASHLIST_H
 #define HASHLIST_H

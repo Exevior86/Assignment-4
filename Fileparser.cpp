@@ -1,6 +1,6 @@
 //-------------------------- Fileparser.cpp ----------------------------------
-// Vlad Netrebchenko & Adam Snyder CSS 343 C
-// 3/18/2019
+// Vlad Netrebchenko, Adam Snyder CSS 343 C
+// 3/8/2019
 // 3/19/2019
 //----------------------------------------------------------------------------
 // Parses input files into the store controller.
@@ -14,6 +14,7 @@
 #include "MovieF.h"
 #include <iostream>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -30,14 +31,18 @@ Fileparser::~Fileparser() {}
 //----------------------------------------------------------------------------
 void Fileparser::parseCustomers(ifstream& infile, StoreController* store) 
 {
+	string line;
 	string id;
 	string first;
 	string last;
 
 	// for every customer, get the id, last name, and first name
-	while (infile >> id >> last >> first) 
+	while (getline(infile, line)) 
 	{
-		Customer* customer = new Customer(stoi(id), first, last);
+		id = line.substr(0, 4);
+		first = line.substr(5, line.length());
+
+		Customer* customer = new Customer(stoi(id), first);
 		store->addCustomer(customer);
 	}
 } // end of parseCustomers
@@ -63,6 +68,8 @@ void Fileparser::parseMovies(ifstream& infile, StoreController* store)
 			string director;
 			string title;
 			string actor;
+			string month;
+			string year;
 
 			if (token == "C") 
 			{
@@ -79,20 +86,41 @@ void Fileparser::parseMovies(ifstream& infile, StoreController* store)
 				title = token.substr(1, token.length());
 
 				// parse actor
-				getline(stream, token, ',');
-				actor = token.substr(1, token.length() - 8);
-				if (actor.at(actor.length() - 1) == ' ') 
+				bool encounteredNumber = false;
+				while (!encounteredNumber)
 				{
-					actor = actor.substr(0, actor.length() - 1);
-				}
+					string temp;
+					stream >> temp;
+					encounteredNumber = true;
 
-				// parse the month and year
-				string date = token.substr(token.length() - 7, token.length());
-				int year = stoi(date.substr(date.length() - 4, date.length()));
-				int month = stoi(date.substr(0, 4));
+					for (int i = 0; i < temp.length(); i++)
+					{
+						if (!isdigit(temp.at(i)))
+						{
+							encounteredNumber = false;
+							if (actor == "")
+							{
+								actor = temp;
+							}
+							else
+							{
+								actor += " " + temp;
+							}
+							break;
+						}
+					}
+
+					if (encounteredNumber)
+					{
+						month = temp;
+						stream >> year;
+					}
+				}; 
+
+				getline(stream, token, ',');
 
 				// add to store inventory
-				store->addMovieC(new MovieC(stock, title, director, actor, month, year));
+				store->addMovieC(new MovieC(stock, title, director, actor, stoi(month), stoi(year)));
 			}
 			else if (token == "D") 
 			{
@@ -138,6 +166,11 @@ void Fileparser::parseMovies(ifstream& infile, StoreController* store)
 			}
 			else 
 			{
+				for (int i = 0; i < 5; i++)
+				{
+					getline(stream, token, ',');
+				}
+
 				// print error message for incorrect movie type
 				cout << "Please input movies that are of type F, D, or C." << endl;
 				break;
@@ -156,10 +189,13 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 	string line;
 	string token;
 	string ID;
+	string type;
 
 	while (getline(infile, line)) 
 	{
-		token = line.substr(0, 1);
+		istringstream stream(line);
+
+		stream >> token;
 
 		if (token == "I") 
 		{
@@ -167,9 +203,11 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 		}
 		else if (token == "H") 
 		{
-			ID = line.substr(line.length() - 4, 4);
+			stream >> ID;
 			int custID = stoi(ID);
+
 			bool customerExists = store->printTransHistory(custID, cout);
+
 			if (!customerExists) 
 			{
 				cout << "Customer does not exist" << endl;
@@ -178,26 +216,28 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 		// parse B and R commands
 		else if (token == "B" || token == "R") 
 		{
-			string delimeter = ",";
-			ID = line.substr(2, 4);
-			string type = line.substr(9, 1);
 			string date;
 			string director;
-			string actorName;
+			string actorFirst;
+			string actorLast;
 			string movieTitle;
 			string month;
 			string year;
-			string brokenLine = line.substr(10, line.length());
+			string genre;
 
-			istringstream stream(line);
+			stream >> ID;
+			stream >> genre;
+			stream >> type;
 
 			// C type movies
 			if (type == "C") 
 			{
-				date = line.substr(11, 6);
-				month = date.substr(0, 1);
-				year = date.substr(2, 4);
-				actorName = line.substr(18, line.length());
+				stream >> month;
+				stream >> year;
+				stream >> actorFirst;
+				stream >> actorLast;
+
+				string actorName = actorFirst + " " + actorLast;
 
 				// create new movie and add it to the customer's transactions, or print error message
 				MovieC *movie = new MovieC(1, "placeholder", "placeholder", actorName, stoi(month), stoi(year));
@@ -213,8 +253,9 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 			// F type movies
 			else if (type == "F") 
 			{
-				date = line.substr(line.length() - 4, 4);
-				movieTitle = brokenLine.substr(1, brokenLine.find(delimeter) - 1);
+				getline(stream, movieTitle, ',');
+				movieTitle = movieTitle.substr(1, movieTitle.length());
+				stream >> date;
 
 				// create new movie and add it to the customer's transactions, or print error message
 				MovieF *movie = new MovieF(1, movieTitle, "placeholder", stoi(date));
@@ -230,10 +271,11 @@ void Fileparser::parseCommands(ifstream& infile, StoreController* store)
 			// D type movies
 			else if (type == "D") 
 			{
-				director = brokenLine.substr(1, brokenLine.find(delimeter) - 1);
+				getline(stream, director, ',');
+				director = director.substr(1, director.length());
 
-				movieTitle = brokenLine.substr(director.length() + 2, brokenLine.length());
-				movieTitle = movieTitle.substr(1, movieTitle.length() - 2);
+				getline(stream, movieTitle, ',');
+				movieTitle = movieTitle.substr(1, movieTitle.length());
 
 				// create new movie and add it to the customer's transactions, or print error message
 				MovieD *movie = new MovieD(1, movieTitle, director, 1121);
